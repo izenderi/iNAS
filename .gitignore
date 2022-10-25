@@ -18,3 +18,7 @@ Release/
 /.ccsproject
 /.project
 __pycache__/
+iNAS/logs/*
+iNAS/trial_log/*
+iNAS/weights/*
+iNAS/Pipfile.lock
