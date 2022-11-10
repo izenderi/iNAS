@@ -20,5 +20,6 @@ Release/
 __pycache__/
 iNAS/logs/*
 iNAS/trial_log/*
+iNAS/tmp_buffers/*
 iNAS/weights/*
 iNAS/Pipfile.lock
