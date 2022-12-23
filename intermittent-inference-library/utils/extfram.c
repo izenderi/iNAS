@@ -174,7 +174,8 @@ int _FRAM_rdy(){
 #endif
 		while(SPISTATW & 0x1);
 		SLAVE_CS_OUT |= SLAVE_CS_PIN;
-		for(int i=0;i<9;i++){
+		uint16_t i;
+		for(i=0;i<9;i++){
 			if(deviceid[i] != deviceid_p[i])return 1;
 		}
 		return 0;
@@ -546,15 +547,16 @@ void DMA_INT2_IRQHandler(void) {
 void testSPI (void) {
     SPI_ADDR A;
     uint8_t test_array[TEST_ARRAY_LEN];
+    uint8_t idx;
     A.L = 0;
     SPI_READ( &A, test_array, TEST_ARRAY_LEN );
-    for (uint8_t idx = 0; idx < TEST_ARRAY_LEN; idx++) {
+    for (idx = 0; idx < TEST_ARRAY_LEN; idx++) {
         test_array[idx] = idx;
     }
     SPI_WRITE( &A, test_array, TEST_ARRAY_LEN );
     memset(test_array, 0xFF, TEST_ARRAY_LEN);
     SPI_READ( &A, test_array, TEST_ARRAY_LEN );
-    for (uint8_t idx = 0; idx < TEST_ARRAY_LEN; idx++) {
+    for (idx = 0; idx < TEST_ARRAY_LEN; idx++) {
         if (test_array[idx] != idx) {
             while (1) {}
         }
