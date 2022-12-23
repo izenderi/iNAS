@@ -383,12 +383,13 @@ void test_iterative_multiply(){
     volatile uint16_t a=0;
     volatile uint16_t b=0;
     uint16_t i;
+    uint16_t j;
 
     a=123;
     b=1234;
 
     _lpm_sleep(100);
-    for(uint16_t j=0;j<10;j++){
+    for(j=0;j<10;j++){
 		for (i=0; i < 65000; i++){
 			result = a * b;
 		}
@@ -404,11 +405,12 @@ void test_iterative_division(){
     volatile uint16_t a=0;
     volatile uint16_t b=0;
     uint16_t i;
+    uint16_t j;
 
     a=123;
     b=1234;
     _lpm_sleep(100);
-    for(uint16_t j=0;j<10;j++){
+    for(j=0;j<10;j++){
 
 		for (i=0; i < 65000; i++){
 			result = b / a;
@@ -424,12 +426,13 @@ void test_iterative_modulo(){
     volatile uint16_t a=0;
     volatile uint16_t b=0;
     uint16_t i;
+    uint16_t j;
 
     a=123;
     b=1234;
 
     _lpm_sleep(100);
-    for(uint16_t j=0;j<10;j++){
+    for(j=0;j<10;j++){
 		for (i=0; i < 65000; i++){
 			result = b % a;
 		}
@@ -443,11 +446,12 @@ void test_iterative_max(){
     volatile uint16_t result=0;
     volatile uint16_t a=0;    
     uint16_t i;
+    uint16_t j;
 
     a=123;
     
     _lpm_sleep(100);
-    for(uint16_t j=0;j<10;j++){
+    for(j=0;j<10;j++){
 		for (i=0; i < 65000; i++){
 			result = a > i ? a : i;
 		}

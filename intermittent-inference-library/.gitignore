@@ -12,6 +12,3 @@ Release/
 /dvt/
 /RemoteSystemsTempFiles/
 *.c.bak
-/.cproject
-/.ccsproject
-/.project

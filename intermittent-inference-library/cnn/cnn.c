@@ -17,17 +17,9 @@
 
 #include "../data/test_model.h"
 
-
-
 /* for conv combo testing */
 
-
-
-
-
-
 #define NUM_RUNS        65535
-
 
 #pragma PERSISTENT(NVM_init)
 uint8_t NVM_init=0;
@@ -85,7 +77,7 @@ void CNN_run(){
     uint8_t  fpL=0;
     CNNLayer_t *layer;
     SPI_ADDR A;
-    A.L = LOC_LAYER_ID;
+//    A.L = LOC_LAYER_ID;
     SPI_READ(&A,(uint8_t*)&fpL,sizeof(uint8_t));
 
     pulseCount++;
@@ -100,7 +92,7 @@ void CNN_run(){
             layer->fun(layer->lix, &layer->weights, &layer->bias, &layer->ifm, &layer->ofm,&layer->parE,&layer->parP,layer->idxBuf);
 
             fpL++;
-            A.L = LOC_LAYER_ID;
+//            A.L = LOC_LAYER_ID;
             SPI_WRITE(&A,(uint8_t*)&fpL,sizeof(uint8_t));
             _DBGUART("L : %d, P: %d\r\n",fpCount,pulseCount);
         }
@@ -108,7 +100,7 @@ void CNN_run(){
         fpCount++;
         _DBGUART("L-DN Cnt: %d, P: %d\r\n",fpCount,pulseCount);
         pulseCount=0;fpL=0;printFlag=0;
-        A.L = LOC_LAYER_ID;
+//        A.L = LOC_LAYER_ID;
         SPI_WRITE(&A,(uint8_t*)&fpL,sizeof(uint8_t));
         _SHUTDOWN();_STOP();
 
@@ -196,7 +188,7 @@ void CNN_printInput(Mat_t *ifm){
 void CNN_printResult(Mat_t *ofm){
     uint16_t c;
     for(c=0; c<ofm->ch; c++){
-        _DBGUART("[%d]: %d\r\n", c, *(ofm->data + c));
+        _DBGUART("[%d]: %d\r\n", c, (ofm->data + c));
     }
 }
 
@@ -219,24 +211,24 @@ uint16_t CNN_GetModel_numLayers(){
     return network.numLayers;
 }
 /* related to buffers */
-_q15* CNN_GetLEAMemoryLocation(){
-    return pLEAMemory;
-}
-_q15* CNN_GetLayerTempBuff1Location(){
-    return pLayerTempBuff1;
-}
-_q15* CNN_GetLayerTempBuff2Location(){
-    return pLayerTempBuff2;
-}
-_q15* CNN_GetSRAMBuffLocation(){
-    return pSRAMBuff;
-}
-_q15* CNN_GetOFMBuff1Location(){
-    return pOFMBuff1;
-}
-_q15* CNN_GetOFMBuff2Location(){
-    return pOFMBuff2;
-}
+// _q15* CNN_GetLEAMemoryLocation(){
+//     return pLEAMemory;
+// }
+//_q15* CNN_GetLayerTempBuff1Location(){
+//    return pLayerTempBuff1;
+//}
+//_q15* CNN_GetLayerTempBuff2Location(){
+//    return pLayerTempBuff2;
+//}
+//_q15* CNN_GetSRAMBuffLocation(){
+//    return pSRAMBuff;
+//}
+//_q15* CNN_GetOFMBuff1Location(){
+//    return pOFMBuff1;
+//}
+//_q15* CNN_GetOFMBuff2Location(){
+//    return pOFMBuff2;
+//}
 
 
 
