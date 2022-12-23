@@ -135,13 +135,13 @@ int main() {
 
 
     boardSetup();
-    __delay_cycles(100000);
+//    __delay_cycles(100000);
     initSPI();
 
-    if(!_init){
-    	_init =1;
-    	while(1);
-    }
+    // if(!_init){
+    // 	_init =1;
+    // 	while(1);
+    // }
 
 
 #ifdef ENABLE_VMON
@@ -149,13 +149,27 @@ int main() {
    VMon_enable();  // start VMon
 #endif
 
+    // pesudo code part - comment below lines and find which you want to test 
+    // with the lines 158-171
     msp_lea_init();
+    
+
 //    _SHUTDOWN();
     // run microbenchmark
-    //GPIO_toggleOutputOnPin( GPIO_PORT_P4, GPIO_PIN1 );
-    //GPIO_toggleOutputOnPin( GPIO_PORT_P4, GPIO_PIN1 );
 
-//    test_iterative_dma_fram_to_sram();
+   //original ----------------------------
+//    GPIO_toggleOutputOnPin( GPIO_PORT_P4, GPIO_PIN1 );
+//    GPIO_toggleOutputOnPin( GPIO_PORT_P4, GPIO_PIN1 );
+   //End original ----------------------------
+
+   int i;
+   for (i=10;i>0;i--){
+    //Turn on LED ----------------------------
+    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN1);
+    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
+    //End Turn on LED ----------------------------
+
+    test_iterative_dma_fram_to_sram();
 
 //    test_iterative_dma_sram_to_fram();
 //
@@ -165,8 +179,30 @@ int main() {
 //    test_iterative_modulo();
 //    test_iterative_max();
 //    test_microbench_multiple_latency();
+
+
     _lpm_sleep(10);
     test_LayerConv_Combo();
+   }
+//   //Turn on LED ----------------------------
+//    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN1);
+//    GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN0);
+//    //End Turn on LED ----------------------------
+//
+//    test_iterative_dma_fram_to_sram();
+//
+////    test_iterative_dma_sram_to_fram();
+////
+////    test_iterative_add();
+////    test_iterative_multiply();
+////    test_iterative_division();
+////    test_iterative_modulo();
+////    test_iterative_max();
+////    test_microbench_multiple_latency();
+//
+//
+//    _lpm_sleep(10);
+//    test_LayerConv_Combo();
 
 
 	return 0;
