@@ -3,8 +3,6 @@ Release/
 .launches/
 .DS_Store
 .settings/
-/dsplib/
-/driverlib/
 /targetConfigs/
 /BuildOutputs/
 /.metadata/
