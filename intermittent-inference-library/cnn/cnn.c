@@ -211,24 +211,24 @@ uint16_t CNN_GetModel_numLayers(){
     return network.numLayers;
 }
 /* related to buffers */
-// _q15* CNN_GetLEAMemoryLocation(){
-//     return pLEAMemory;
+ _q15* CNN_GetLEAMemoryLocation(){
+     return pLEAMemory;
+ }
+// _q15* CNN_GetLayerTempBuff1Location(){
+//     return pLayerTempBuff1;
 // }
-//_q15* CNN_GetLayerTempBuff1Location(){
-//    return pLayerTempBuff1;
-//}
-//_q15* CNN_GetLayerTempBuff2Location(){
-//    return pLayerTempBuff2;
-//}
-//_q15* CNN_GetSRAMBuffLocation(){
-//    return pSRAMBuff;
-//}
-//_q15* CNN_GetOFMBuff1Location(){
-//    return pOFMBuff1;
-//}
-//_q15* CNN_GetOFMBuff2Location(){
-//    return pOFMBuff2;
-//}
+// _q15* CNN_GetLayerTempBuff2Location(){
+//     return pLayerTempBuff2;
+// }
+// _q15* CNN_GetSRAMBuffLocation(){
+//     return pSRAMBuff;
+// }
+// _q15* CNN_GetOFMBuff1Location(){
+//     return pOFMBuff1;
+// }
+// _q15* CNN_GetOFMBuff2Location(){
+//     return pOFMBuff2;
+// }
 
 
 

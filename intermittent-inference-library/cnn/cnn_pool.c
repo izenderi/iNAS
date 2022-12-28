@@ -7,7 +7,7 @@
 
 
 #include "../utils/util_macros.h"
-#include "cnn_buffers.h"
+//#include "cnn_buffer_sizes.h"
 
 
 #include "cnn_common.h"

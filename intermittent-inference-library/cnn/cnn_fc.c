@@ -11,7 +11,7 @@
 
 #include "cnn_fc.h"
 
-#include "cnn_buffers.h"
+//#include "cnn_buffer_sizes.h"
 
 
 #pragma PERSISTENT(FP_LayerFC)

@@ -7,13 +7,11 @@
 #ifndef CNN_BUFFERS_H_
 #define CNN_BUFFERS_H_
 
+#include "cnn_common.h"
 
-// #include "cnn_common.h"
-
-
-//DSPLIB_DATA(LEA_MEMORY,4)
-// _q15 LEA_MEMORY[LEA_MEM_SIZE];
-// _q15 *pLEAMemory = LEA_MEMORY;
+DSPLIB_DATA(LEA_MEMORY,4);
+_q15 LEA_MEMORY[LEA_MEM_SIZE];
+_q15 *pLEAMemory = LEA_MEMORY;
 
 
 

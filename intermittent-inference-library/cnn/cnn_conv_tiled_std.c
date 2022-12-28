@@ -9,11 +9,11 @@
 
 #include "cnn_conv_tiled_std.h"
 
-#include "cnn_buffers.h"
+//#include "cnn_buffer_sizes.h"
 
 // added new .h files based on cnn_pool.c
-#include "cnn_pool.h"
-#include "cnn_common.h"
+//#include "cnn_pool.h"
+//#include "cnn_common.h"
 
 #if CNN_CONVTYPE_SELECT == CNN_CONVTYPE_TILED_STD
 

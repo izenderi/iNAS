@@ -171,8 +171,8 @@ int main() {
 
     test_iterative_dma_fram_to_sram();
 
-//    test_iterative_dma_sram_to_fram();
-//
+    test_iterative_dma_sram_to_fram();
+
 //    test_iterative_add();
 //    test_iterative_multiply();
 //    test_iterative_division();
