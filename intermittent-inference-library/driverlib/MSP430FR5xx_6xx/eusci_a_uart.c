@@ -84,7 +84,7 @@ void EUSCI_A_UART_transmitData ( uint16_t baseAddress,
     //If interrupts are not used, poll for flags
     if (!(HWREG16(baseAddress + OFS_UCAxIE) & UCTXIE)){
         //Poll for transmit interrupt flag
-        while (!(HWREG16(baseAddress + OFS_UCAxIFG) & UCTXIFG));
+//        while (!(HWREG16(baseAddress + OFS_UCAxIFG) & UCTXIFG));
     }
 
     HWREG16(baseAddress + OFS_UCAxTXBUF) = transmitData;

@@ -63,11 +63,11 @@ CNNLayerBenchmark_t CurrLayerBench = {false, 0, 0, 0};
 
 void CNN_run(){
 
-    if(!NVM_init){
-        eraseFRAM();
-        NVM_init=1;
-        while(1);
-     }
+//    if(!NVM_init){
+//        eraseFRAM();
+//        NVM_init=1;
+//        while(1);
+//     }
 
 
 #if     CNN_TB_TYPE == TB_CNN
@@ -83,7 +83,7 @@ void CNN_run(){
     pulseCount++;
     // test CNN - run iteratively
     for(cnt=fpCount; cnt < NUM_RUNS; cnt++){ // each channel in ifm
-    	if( (lix==0)  && (printFlag==0)){_DBGUART("\r\nL-ST\r\n");printFlag=1;_SHUTDOWN();_STOP();}
+//    	if( (lix==0)  && (printFlag==0)){_DBGUART("\r\nL-ST\r\n");printFlag=1;_SHUTDOWN();_STOP();}
 
         for(lix=fpL; lix < network.numLayers; lix++){ // each channel in ifm
             CNN_Benchmark_Set_LID(lix);
@@ -102,7 +102,7 @@ void CNN_run(){
         pulseCount=0;fpL=0;printFlag=0;
 //        A.L = LOC_LAYER_ID;
         SPI_WRITE(&A,(uint8_t*)&fpL,sizeof(uint8_t));
-        _SHUTDOWN();_STOP();
+//        _SHUTDOWN();_STOP();
 
     }
 

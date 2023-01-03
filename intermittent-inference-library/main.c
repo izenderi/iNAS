@@ -138,10 +138,10 @@ int main() {
 
     boardSetup();
     __delay_cycles(400000);
-    if(0 != initSPI()){
-    	_DBGUART("\r\nFRAM not ready!\r\n");
-    	_SHUTDOWN();_STOP();
-    }
+//    if(0 != initSPI()){
+//    	_DBGUART("\r\nFRAM not ready!\r\n");
+//    	_SHUTDOWN();_STOP();
+//    }
 
 
 #ifdef ENABLE_VMON

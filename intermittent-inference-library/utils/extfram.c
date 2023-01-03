@@ -308,8 +308,8 @@ void SPI_READ(SPI_ADDR* A,uint8_t *dst, unsigned long len ){
 		SPIIFG &= ~UCTXIFG;
 		SPIIFG |=  UCTXIFG;
 
-		while(DMA4CTL & DMAEN__ENABLE);
-		while(DMA3CTL & DMAEN__ENABLE);
+//		while(DMA4CTL & DMAEN__ENABLE);
+//		while(DMA3CTL & DMAEN__ENABLE);
 
 #else // !defined(__MSP430__)
 		MAP_DMA_enableModule();
@@ -406,7 +406,7 @@ void SPI_WRITE(SPI_ADDR* A, const uint8_t *src, unsigned long len ){
 		//Triger the DMA to invoke the first transfer
 		SPIIFG &= ~UCTXIFG;
 		SPIIFG |=  UCTXIFG;
-		while(DMA3CTL & DMAEN__ENABLE);
+//		while(DMA3CTL & DMAEN__ENABLE);
 #else
 		// Ref: dma_eusci_spi.c from https://e2e.ti.com/support/microcontrollers/msp430/f/166/t/453110?MSP432-SPI-with-DMA
 		MAP_DMA_enableModule();
