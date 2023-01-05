@@ -10,7 +10,7 @@
 #include "driverlib.h"
 
 
-#define UART_BUADRATE 115200
+#define UART_BUADRATE 9600
 
 
 // The following structure will configure the EUSCI_A port to run at 9600 baud from an 1~16MHz ACLK

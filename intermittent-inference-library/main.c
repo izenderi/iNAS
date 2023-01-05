@@ -139,7 +139,9 @@ int main() {
     boardSetup();
     __delay_cycles(400000);
     if(0 != initSPI()){
-    	_DBGUART("\r\nFRAM not ready!\r\n");
+    	_DBGUART("\rFRAM not ready!\r\n");
+//    	EUSCI_A_UART_transmitData(EUSCI_A0_BASE, 'N');
+//    	print2uartlength("SSS", 3);
     	_SHUTDOWN();_STOP();
     }
 
