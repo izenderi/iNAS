@@ -66,6 +66,7 @@ void CNN_run(){
     if(!NVM_init){
         eraseFRAM();
         NVM_init=1;
+        _DBGUART("NVM_init: %d \r\n",NVM_init);
         while(1);
      }
 
