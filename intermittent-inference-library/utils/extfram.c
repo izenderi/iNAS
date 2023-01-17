@@ -19,6 +19,9 @@
 //                |             P6.2|-> Serial Clock Out (UCA3	CLK)
 //                |                 |
 //                |             P6.3|-> Slave Chip Select (GPIO)
+// WP coonect to 3.3v
+// power connect to 3.3v (Vdd)
+// ground connect to GND
 
 
 //                   MSP432P401R (100 pin, using UCB1)
@@ -147,6 +150,7 @@ int _FRAM_rdy(){
 	SLAVE_CS_OUT &= ~(SLAVE_CS_PIN);
 	SPITXBUF = CMD_RDID;
 	char deviceid[9];
+	//deviceid_p: Check datasheet for the device id for part (usually in reverse order)
 	char deviceid_p[9] = {0xA1,0x2F,0xC2,0x7F,0x7F,0x7F,0x7F,0x7F,0x7F};
 	while(SPISTATW & 0x1);
 #ifdef __MSP430__
