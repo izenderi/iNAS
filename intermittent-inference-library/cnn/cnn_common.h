@@ -57,7 +57,7 @@
 
 #define TB_CNN_MICROBENCH                  150
 
-#define CNN_TB_TYPE   TB_CNN
+#define CNN_TB_TYPE   TB_COMBOLAYER_CONV
 
 
 
