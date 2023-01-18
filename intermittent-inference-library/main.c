@@ -35,26 +35,26 @@ void VMon_ISR_Callback(void);
 
 
 
-//void VMon_ISR_Callback(void){
-//#ifdef ENABLE_VMON
-//    switch (__even_in_range(CEIV, CEIV_CERDYIFG)) {
-//        case CEIV_NONE:        break;
-//        case CEIV_CEIFG:
-//
-//			break;
-//        case CEIV_CEIIFG:
-//        	CEIV &= ~(CEIV_CEIIFG);
-//
-//			VMon_disable();
-//			__disable_interrupt();
-//			_DBGUART("-- VM_I2 --\r\n");
-//			_SHUTDOWN(); _STOP();
-//
-//            break;
-//        case CEIV_CERDYIFG:    break;
-//    }
-//#endif
-//}
+void VMon_ISR_Callback(void){
+#ifdef ENABLE_VMON
+    switch (__even_in_range(CEIV, CEIV_CERDYIFG)) {
+        case CEIV_NONE:        break;
+        case CEIV_CEIFG:
+
+			break;
+        case CEIV_CEIIFG:
+        	CEIV &= ~(CEIV_CEIIFG);
+
+			VMon_disable();
+			__disable_interrupt();
+			_DBGUART("-- VM_I2 --\r\n");
+			_SHUTDOWN(); _STOP();
+
+            break;
+        case CEIV_CERDYIFG:    break;
+    }
+#endif
+}
 
 
 void gpio_setup(void){
@@ -146,10 +146,10 @@ int main() {
     }
 
 
-//#ifdef ENABLE_VMON
-//    VMon_init(&VMon_ISR_Callback); // initiate Voltage Monitor (VMon)
-//    VMon_enable();  // start VMon
-//#endif
+#ifdef ENABLE_VMON
+    VMon_init(&VMon_ISR_Callback); // initiate Voltage Monitor (VMon)
+    VMon_enable();  // start VMon
+#endif
 //    while(1);
     msp_lea_init();
 
