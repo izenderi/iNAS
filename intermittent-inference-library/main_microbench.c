@@ -1,6 +1,4 @@
-/*
- * main.c 
- */
+
 
 #include <msp430.h>
 
@@ -13,6 +11,8 @@
 #include "utils/myuart.h"
 #include "utils/voltage_monitor.h"
 #include "utils/helper_functions.h"
+#include "cnn/tests/cnn_testbench_microbench.h"
+#include "cnn/tests/cnn_testbench_conv.h"
 
 // cnn library
 #include "cnn/cnn.h"
@@ -23,12 +23,14 @@ unsigned int FreqLevel = 8;
 int uartsetup=0;
 volatile uint32_t cycleCount;
 
+
+#pragma PERSISTENT(_init)
+uint8_t _init=0;
+
 // func prototypes
 void gpio_setup(void);
 int boardSetup(void);
 void VMon_ISR_Callback(void);
-
-
 
 
 
@@ -41,14 +43,14 @@ void VMon_ISR_Callback(void){
         case CEIV_NONE:        break;
         case CEIV_CEIFG:
 
-			break;
+            break;
         case CEIV_CEIIFG:
-        	CEIV &= ~(CEIV_CEIIFG);
+            CEIV &= ~(CEIV_CEIIFG);
 
-			VMon_disable();
-			__disable_interrupt();
-			_DBGUART("-- VM_I2 --\r\n");
-			_SHUTDOWN(); _STOP();
+            VMon_disable();
+            __disable_interrupt();
+            _DBGUART("-- VM_I2 --\r\n");
+            _SHUTDOWN(); _STOP();
 
             break;
         case CEIV_CERDYIFG:    break;
@@ -58,12 +60,14 @@ void VMon_ISR_Callback(void){
 
 
 void gpio_setup(void){
+
     /* set direction */
     GPIO_setAsOutputPin( GPIO_PORT_P1, GPIO_PIN0 ); // led
     GPIO_setAsOutputPin( GPIO_PORT_P1, GPIO_PIN1 ); // led
     GPIO_setAsOutputPin( GPIO_PORT_P4, GPIO_PIN1 ); // for debug
     GPIO_setAsOutputPin( GPIO_PORT_P5, GPIO_PIN0 ); // EHM shutdown
     GPIO_setAsOutputPin( GPIO_PORT_P5, GPIO_PIN1 ); // EXT_FLAG : to signal the FT232H to complete exp run
+
     /* set initial value */
     // leds
     GPIO_setOutputLowOnPin( GPIO_PORT_P1, GPIO_PIN0 );  // led
@@ -72,33 +76,21 @@ void gpio_setup(void){
     GPIO_setOutputLowOnPin( GPIO_PORT_P5, GPIO_PIN0 );  // EHM shutdown
     GPIO_setOutputLowOnPin( GPIO_PORT_P5, GPIO_PIN1 );  // EXT_FLAG : to signal the FT232H to complete exp run
 
-}
+    }
 
 
 int boardSetup(){
     WDTCTL = WDTPW + WDTHOLD;    /* disable watchdog timer  */
 
-    // initialize GPIO
+
 
     PM5CTL0 &= ~LOCKLPM5;       // Disable the GPIO power-on default high-impedance mode
-//    P8DIR=0xfd;P8REN=GPIO_PIN1;
-    P1DIR=0xff;P1OUT=0x00;
-    P2DIR=0xff;P2OUT=0x00;
-    P3DIR=0xff;P3OUT=0x00;
-    P4DIR=0xff;P4OUT=0x00;
-    P5DIR=0xff;P5OUT=0x00;
-    P6DIR=0xff;P6OUT=0x00;
-    P7DIR=0xff;P7OUT=0x00;
-    P8DIR=0xff;P8OUT=0x00;
-    PADIR=0xff;PAOUT=0x00;
-    PBDIR=0xff;PBOUT=0x00;
-    PCDIR=0xff;PCOUT=0x00;
-    PDDIR=0xff;PDOUT=0x00;
 
     /* setup UART */
     uartsetup=0;
     setFrequency(8);
     CS_initClockSignal( CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1 );
+    CS_initClockSignal( CS_ACLK,  CS_LFXTCLK_SELECT, CS_CLOCK_DIVIDER_1); //ACLK=32768 HZ,
     uartinit();
 
     /* clock setup */
@@ -126,44 +118,57 @@ int boardSetup(){
     // setup gpio
     gpio_setup();
 
+
+    //Verify if the Clock settings are as expected
+    volatile uint32_t clockValue;
+    clockValue = CS_getMCLK();  //24969216
+    clockValue = CS_getACLK();  //32768
+    clockValue = CS_getSMCLK(); //24969216
+    if(clockValue);
+
+
     return 0;
 };
 
 
 int main() {
-    /* mandatory init stuff */
-    WDTCTL = WDTPW | WDTHOLD;     //Stop WDT
-    PM5CTL0 &= ~LOCKLPM5; // Disable the GPIO power-on default high-impedance mode to activate previously configured port settings
 
 
     boardSetup();
-    __delay_cycles(400000);
-    if(0 != initSPI()){
-    	_DBGUART("\rFRAM not ready!\r\n");
-//    	EUSCI_A_UART_transmitData(EUSCI_A0_BASE, 'N');
-//    	print2uartlength("SSS", 3);
-    	_SHUTDOWN();_STOP();
-    }
+    __delay_cycles(100000);
+    initSPI();
+
+//    if(!_init){
+//    	_init =1;
+//    	while(1);
+//    }
 
 
 #ifdef ENABLE_VMON
-    VMon_init(&VMon_ISR_Callback); // initiate Voltage Monitor (VMon)
-    VMon_enable();  // start VMon
+   VMon_init(&VMon_ISR_Callback); // initiate Voltage Monitor (VMon)
+   VMon_enable();  // start VMon
 #endif
-//    while(1);
+
     msp_lea_init();
+//    _SHUTDOWN();
+    // run microbenchmark
+    //GPIO_toggleOutputOnPin( GPIO_PORT_P4, GPIO_PIN1 );
+    //GPIO_toggleOutputOnPin( GPIO_PORT_P4, GPIO_PIN1 );
 
-    // run CNN model
-    while(1){
-        _DBGUART("\rCNN_run Exe\r\n");
-    	CNN_run();
-    }
+//    test_iterative_dma_fram_to_sram();
 
-    _DBGUART("------ FINISHED !\r\n");
-    __delay_cycles(100);
-    GPIO_setOutputHighOnPin( GPIO_PORT_P5, GPIO_PIN1 );
+//    test_iterative_dma_sram_to_fram();
+//
+//    test_iterative_add();
+//    test_iterative_multiply();
+//    test_iterative_division();
+//    test_iterative_modulo();
+//    test_iterative_max();
+//    test_microbench_multiple_latency();
+    _lpm_sleep(10);
+    test_LayerConv_Combo();
 
-	__no_operation();
+
 	return 0;
 }
 
