@@ -17,9 +17,17 @@
 
 #include "../data/test_model.h"
 
+#include "cnn_buffer_sizes.h"
+
 /* for conv combo testing */
 
+
+
+
+
+
 #define NUM_RUNS        65535
+
 
 #pragma PERSISTENT(NVM_init)
 uint8_t NVM_init=0;
@@ -66,7 +74,6 @@ void CNN_run(){
 //    if(!NVM_init){
 //        eraseFRAM();
 //        NVM_init=1;
-//        _DBGUART("NVM_init: %d \r\n",NVM_init);
 //        while(1);
 //     }
 
@@ -78,13 +85,13 @@ void CNN_run(){
     uint8_t  fpL=0;
     CNNLayer_t *layer;
     SPI_ADDR A;
-//    A.L = LOC_LAYER_ID;
+    A.L = LOC_LAYER_ID;
     SPI_READ(&A,(uint8_t*)&fpL,sizeof(uint8_t));
 
     pulseCount++;
     // test CNN - run iteratively
     for(cnt=fpCount; cnt < NUM_RUNS; cnt++){ // each channel in ifm
-   	if( (lix==0)  && (printFlag==0)){_DBGUART("\r\nL-ST\r\n");printFlag=1;_SHUTDOWN();_STOP();}
+//    	if( (lix==0)  && (printFlag==0)){_DBGUART("\r\nL-ST\r\n");printFlag=1;_SHUTDOWN();_STOP();}
 
         for(lix=fpL; lix < network.numLayers; lix++){ // each channel in ifm
             CNN_Benchmark_Set_LID(lix);
@@ -93,7 +100,7 @@ void CNN_run(){
             layer->fun(layer->lix, &layer->weights, &layer->bias, &layer->ifm, &layer->ofm,&layer->parE,&layer->parP,layer->idxBuf);
 
             fpL++;
-//            A.L = LOC_LAYER_ID;
+            A.L = LOC_LAYER_ID;
             SPI_WRITE(&A,(uint8_t*)&fpL,sizeof(uint8_t));
             _DBGUART("L : %d, P: %d\r\n",fpCount,pulseCount);
         }
@@ -101,10 +108,9 @@ void CNN_run(){
         fpCount++;
         _DBGUART("L-DN Cnt: %d, P: %d\r\n",fpCount,pulseCount);
         pulseCount=0;fpL=0;printFlag=0;
-//        A.L = LOC_LAYER_ID;
+        A.L = LOC_LAYER_ID;
         SPI_WRITE(&A,(uint8_t*)&fpL,sizeof(uint8_t));
-       _SHUTDOWN();_STOP();
-        // __delay_cycles(60);
+        _SHUTDOWN();_STOP();
 
     }
 
@@ -213,24 +219,24 @@ uint16_t CNN_GetModel_numLayers(){
     return network.numLayers;
 }
 /* related to buffers */
- _q15* CNN_GetLEAMemoryLocation(){
-     return pLEAMemory;
- }
-// _q15* CNN_GetLayerTempBuff1Location(){
-//     return pLayerTempBuff1;
-// }
-// _q15* CNN_GetLayerTempBuff2Location(){
-//     return pLayerTempBuff2;
-// }
-// _q15* CNN_GetSRAMBuffLocation(){
-//     return pSRAMBuff;
-// }
-// _q15* CNN_GetOFMBuff1Location(){
-//     return pOFMBuff1;
-// }
-// _q15* CNN_GetOFMBuff2Location(){
-//     return pOFMBuff2;
-// }
+_q15* CNN_GetLEAMemoryLocation(){
+    return pLEAMemory;
+}
+//_q15* CNN_GetLayerTempBuff1Location(){
+//    return pLayerTempBuff1;
+//}
+//_q15* CNN_GetLayerTempBuff2Location(){
+//    return pLayerTempBuff2;
+//}
+//_q15* CNN_GetSRAMBuffLocation(){
+//    return pSRAMBuff;
+//}
+//_q15* CNN_GetOFMBuff1Location(){
+//    return pOFMBuff1;
+//}
+//_q15* CNN_GetOFMBuff2Location(){
+//    return pOFMBuff2;
+//}
 
 
 

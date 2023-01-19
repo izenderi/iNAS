@@ -9,13 +9,12 @@
 
 #include "cnn_conv_tiled_std.h"
 
-//#include "cnn_buffer_sizes.h"
+#include "cnn_buffer_sizes.h"
 
-// added new .h files based on cnn_pool.c
-//#include "cnn_pool.h"
-//#include "cnn_common.h"
 
 #if CNN_CONVTYPE_SELECT == CNN_CONVTYPE_TILED_STD
+
+
 
 
 void _clear_tile_buff(_q15 *pBuffLoc, uint16_t sz){
@@ -344,7 +343,7 @@ void CNN_Intermittent_LayerConv_Tiled_Std(uint16_t lid, Mat_t* weights, Mat_t* b
 void _CNN_Intermittent_LayerConv_Tiled_OFM(uint16_t lid, Mat_t* weights, Mat_t* bias, Mat_t* ifm, Mat_t* ofm, ExeParams_t *parE, PreParams_t *parP, uint8_t idxBuf){
     SPI_ADDR A;
     ConvTileIndices idx;
-//    A.L = LOC_LOOP_INDICES;
+    A.L = LOC_LOOP_INDICES;
     SPI_READ(&A,(uint8_t*)&idx,sizeof(ConvTileIndices)); //fetch loop indices
     //uint16_t buffer_idx = 0; // double buffering
     uint16_t row=idx.r, col=idx.c, to=idx.m, ti=idx.n,buffer_idx=idx.buf;
@@ -383,7 +382,7 @@ void _CNN_Intermittent_LayerConv_Tiled_OFM(uint16_t lid, Mat_t* weights, Mat_t* 
                     	idx.c = col;
                     	idx.m = to;
                     	idx.n = ti;
-//                    	A.L = LOC_LOOP_INDICES;
+                    	A.L = LOC_LOOP_INDICES;
                     	SPI_WRITE(&A,(uint8_t*)&idx, sizeof(ConvTileIndices));
                         iteration=0;  //reset the
                         _SHUTDOWN(); _STOP();
@@ -410,7 +409,7 @@ void _CNN_Intermittent_LayerConv_Tiled_OFM(uint16_t lid, Mat_t* weights, Mat_t* 
     	idx.c = ofm->w;
     	idx.m = ofm->ch;
     	idx.n = ifm->ch;
-//    	A.L = LOC_LOOP_INDICES;
+    	A.L = LOC_LOOP_INDICES;
     	SPI_WRITE(&A,(uint8_t*)&idx, sizeof(ConvTileIndices));
         iteration=0;  //reset the
         _SHUTDOWN(); _STOP();
@@ -421,7 +420,7 @@ void _CNN_Intermittent_LayerConv_Tiled_OFM(uint16_t lid, Mat_t* weights, Mat_t* 
 void _CNN_Intermittent_LayerConv_Tiled_IFM(uint16_t lid, Mat_t* weights, Mat_t* bias, Mat_t* ifm, Mat_t* ofm, ExeParams_t *parE, PreParams_t *parP, uint8_t idxBuf){
     SPI_ADDR A;
     ConvTileIndices idx;
-//    A.L = LOC_LOOP_INDICES;
+    A.L = LOC_LOOP_INDICES;
     SPI_READ(&A,(uint8_t*)&idx,sizeof(ConvTileIndices)); //fetch loop indices
     uint16_t row=idx.r, col=idx.c, to=idx.m, ti=idx.n,buffer_idx=idx.buf;
 
@@ -459,7 +458,7 @@ void _CNN_Intermittent_LayerConv_Tiled_IFM(uint16_t lid, Mat_t* weights, Mat_t* 
                         idx.c = col;
                         idx.m = to;
                         idx.n = ti;
-//                    	A.L = LOC_LOOP_INDICES;
+                    	A.L = LOC_LOOP_INDICES;
                     	SPI_WRITE(&A,(uint8_t*)&idx, sizeof(ConvTileIndices));//
                         iteration=0;  
                         _SHUTDOWN(); _STOP();
@@ -490,7 +489,7 @@ void _CNN_Intermittent_LayerConv_Tiled_IFM(uint16_t lid, Mat_t* weights, Mat_t* 
     	idx.m = ofm->ch;
     	idx.n = ifm->ch;
 
-//    	A.L = LOC_LOOP_INDICES;
+    	A.L = LOC_LOOP_INDICES;
     	SPI_WRITE(&A,(uint8_t*)&idx, sizeof(ConvTileIndices));
         iteration=0;  //reset the
         _SHUTDOWN(); _STOP();
@@ -501,7 +500,7 @@ void _CNN_Intermittent_LayerConv_Tiled_IFM(uint16_t lid, Mat_t* weights, Mat_t* 
 void _CNN_Intermittent_LayerConv_Tiled_WEI(uint16_t lid, Mat_t* weights, Mat_t* bias, Mat_t* ifm, Mat_t* ofm, ExeParams_t *parE, PreParams_t *parP, uint8_t idxBuf){
     SPI_ADDR A;
     ConvTileIndices idx;
-//    A.L = LOC_LOOP_INDICES;
+    A.L = LOC_LOOP_INDICES;
     SPI_READ(&A,(uint8_t*)&idx,sizeof(ConvTileIndices)); //fetch loop indices
     //uint16_t buffer_idx = 0; // double buffering
     uint16_t row=idx.r, col=idx.c, to=idx.m, ti=idx.n,buffer_idx=idx.buf;
@@ -540,7 +539,7 @@ void _CNN_Intermittent_LayerConv_Tiled_WEI(uint16_t lid, Mat_t* weights, Mat_t* 
                         idx.c = col;
                         idx.m = to;
                         idx.n = ti;
-//                    	A.L =  LOC_LOOP_INDICES;
+                    	A.L =  LOC_LOOP_INDICES;
                     	SPI_WRITE(&A,(uint8_t*)&idx, sizeof(ConvTileIndices));
                         iteration=0;  //reset the
                         _SHUTDOWN(); _STOP();
@@ -570,7 +569,7 @@ void _CNN_Intermittent_LayerConv_Tiled_WEI(uint16_t lid, Mat_t* weights, Mat_t* 
     	idx.c = ofm->w;
     	idx.m = ofm->ch;
     	idx.n = ifm->ch;
-//    	A.L = LOC_LOOP_INDICES;
+    	A.L = LOC_LOOP_INDICES;
     	SPI_WRITE(&A,(uint8_t*)&idx, sizeof(ConvTileIndices));
         iteration=0;  //reset the
         _SHUTDOWN(); _STOP();
@@ -594,7 +593,7 @@ void _CNN_Intermittent_LayerConv_Tiled_WEI(uint16_t lid, Mat_t* weights, Mat_t* 
  *************************************************************************/
 void CNN_ClearFootprints_LayerConv_Tiled_Std(uint8_t idxBuf){
     SPI_ADDR A;
-//    A.L = LOC_LOOP_INDICES;
+    A.L = LOC_LOOP_INDICES;
     ConvTileIndices idx={0,0,0,0, 0 };
     SPI_WRITE(&A,(uint8_t*)&idx,sizeof(ConvTileIndices));
 

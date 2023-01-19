@@ -150,7 +150,6 @@ int _FRAM_rdy(){
 	SLAVE_CS_OUT &= ~(SLAVE_CS_PIN);
 	SPITXBUF = CMD_RDID;
 	char deviceid[9];
-	//deviceid_p: Check datasheet for the device id for part (usually in reverse order)
 	char deviceid_p[9] = {0xA1,0x2F,0xC2,0x7F,0x7F,0x7F,0x7F,0x7F,0x7F};
 	while(SPISTATW & 0x1);
 #ifdef __MSP430__
@@ -178,7 +177,7 @@ int _FRAM_rdy(){
 #endif
 		while(SPISTATW & 0x1);
 		SLAVE_CS_OUT |= SLAVE_CS_PIN;
-		uint16_t i;
+		int i=0;
 		for(i=0;i<9;i++){
 			if(deviceid[i] != deviceid_p[i])return 1;
 		}
@@ -551,7 +550,7 @@ void DMA_INT2_IRQHandler(void) {
 void testSPI (void) {
     SPI_ADDR A;
     uint8_t test_array[TEST_ARRAY_LEN];
-    uint8_t idx;
+    uint8_t idx = 0;
     A.L = 0;
     SPI_READ( &A, test_array, TEST_ARRAY_LEN );
     for (idx = 0; idx < TEST_ARRAY_LEN; idx++) {

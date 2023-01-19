@@ -7,7 +7,7 @@
 
 
 #include "../utils/util_macros.h"
-//#include "cnn_buffer_sizes.h"
+#include "cnn_buffer_sizes.h"
 
 
 #include "cnn_common.h"
@@ -28,7 +28,7 @@ void CNN_GlobalAveragePool(uint16_t lid, Mat_t* weights, Mat_t* bias, Mat_t* ifm
 	volatile _iq31 resiq31 = 0;
 	volatile _q15 resq15 = 0;
 	uint16_t ifm_t_sz = (parE->Tm * parE->Tc * parE->Tr);
-	uint16_t too;
+	uint16_t too=0;
 
 	if( (  ( (ifm->h / parE->Tr) * (ifm->w / parE->Tc) ) % parP->preSz) !=0 ){_DBGUART("CNN_Intermittent_GlobalAveragePool:: Error - wrong preSz sizes %d\r\n",parP->preSz);_STOP();}
 	pIFM_t_buff = pLEAMEM;
@@ -53,7 +53,7 @@ void CNN_GlobalAveragePool(uint16_t lid, Mat_t* weights, Mat_t* bias, Mat_t* ifm
 
                 // ===== Intra tile =========
                 uint16_t offset = 0;
-                uint16_t trr, tcc, too;
+                uint16_t trr=0, tcc=0, too=0;
                 for(trr=0; trr < parE->Tr ; trr++){
                 	for(tcc=0; tcc < parE->Tc ; tcc++){
                 		for (too=0; too < parE->Tm; too++){
@@ -81,12 +81,12 @@ void CNN_Intermittent_GlobalAveragePool(uint16_t lid, Mat_t* weights, Mat_t* bia
  //
     SPI_ADDR A;
     ConvTileIndices idx;
-//    A.L = LOC_LOOP_INDICES;
+    A.L = LOC_LOOP_INDICES;
     SPI_READ(&A,(uint8_t*)&idx,sizeof(ConvTileIndices)); //fetch loop indices
     //uint16_t buffer_idx = 0; // double buffering
     uint16_t row=idx.r, col=idx.c, to=idx.m, ti=idx.n;
 	uint16_t iteration = 0;  // number of completed tiles
-	uint16_t too;
+	uint16_t too=0;
 	
     _q15 *pLEAMEM = CNN_GetLEAMemoryLocation();
 	_q15 *pIFM_t_buff, *pOFM_t_buff;
@@ -116,7 +116,7 @@ void CNN_Intermittent_GlobalAveragePool(uint16_t lid, Mat_t* weights, Mat_t* bia
                 	idx.c = col;
                 	idx.m = to;
                 	idx.n = ti;
-//                	A.L = LOC_LOOP_INDICES;
+                	A.L = LOC_LOOP_INDICES;
                 	SPI_WRITE(&A,(uint8_t*)&idx, sizeof(ConvTileIndices));
                     iteration=0;  //reset the
                     _SHUTDOWN(); _STOP();
@@ -126,7 +126,7 @@ void CNN_Intermittent_GlobalAveragePool(uint16_t lid, Mat_t* weights, Mat_t* bia
 
                 // ===== Intra tile =========
                 uint16_t offset = 0;
-                uint16_t trr, tcc, too;
+                uint16_t trr=0, tcc=0, too=0;
                 for(trr=0; trr < parE->Tr ; trr++){  // Tr => Tri   partition IFM
                 	for(tcc=0; tcc < parE->Tc ; tcc++){ // Tc => Tci
                 		for (too=0; too < parE->Tm; too++){
@@ -157,12 +157,12 @@ void CNN_Intermittent_GlobalAveragePool(uint16_t lid, Mat_t* weights, Mat_t* bia
 		idx.c = ifm->w;
 		idx.m = ofm->ch;
 		idx.n = ifm->ch;
-//		A.L = LOC_LOOP_INDICES;
+		A.L = LOC_LOOP_INDICES;
 		SPI_WRITE(&A,(uint8_t*)&idx, sizeof(ConvTileIndices));
 		iteration=0;  //reset the
 		_SHUTDOWN(); _STOP();
 	}
-//	A.L = LOC_LOOP_INDICES;
+	A.L = LOC_LOOP_INDICES;
 	ConvTileIndices idx_clr={0,0,0,0, 0 };
 	SPI_WRITE(&A,(uint8_t*)&idx_clr,sizeof(ConvTileIndices));
 }
