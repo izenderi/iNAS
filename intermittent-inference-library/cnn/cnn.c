@@ -91,7 +91,7 @@ void CNN_run(){
     pulseCount++;
     // test CNN - run iteratively
     for(cnt=fpCount; cnt < NUM_RUNS; cnt++){ // each channel in ifm
-//    	if( (lix==0)  && (printFlag==0)){_DBGUART("\r\nL-ST\r\n");printFlag=1;_SHUTDOWN();_STOP();}
+    	if( (lix==0)  && (printFlag==0)){_DBGUART("\r\nL-ST\r\n");printFlag=1;_SHUTDOWN();_STOP();}
 
         for(lix=fpL; lix < network.numLayers; lix++){ // each channel in ifm
             CNN_Benchmark_Set_LID(lix);
