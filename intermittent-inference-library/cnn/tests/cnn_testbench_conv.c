@@ -112,20 +112,20 @@ void test_LayerConv_Combo(){
                               TBlayer.lix=combo_count; // temp counter (for display)
 
 
-//                              _DBGUART("running - %d, %d, %d, %d, %d, %d, %d, %d\r\n",TBlayer.parE.Tr, TBlayer.parE.Tc, TBlayer.parE.Tm, TBlayer.parE.Tn,
-//                                                                                       TBlayer.ifm.h, TBlayer.ifm.ch, TBlayer.weights.h, TBlayer.weights.n);
+                              _DBGUART("running - %d, %d, %d, %d, %d, %d, %d, %d\r\n",TBlayer.parE.Tr, TBlayer.parE.Tc, TBlayer.parE.Tm, TBlayer.parE.Tn,
+                                                                                       TBlayer.ifm.h, TBlayer.ifm.ch, TBlayer.weights.h, TBlayer.weights.n);
 
                               // ==============================================
                               _lpm_sleep(10);
                               for (i=0;i<1;i++){
 //                            	  if(combo_count < 38)break;
                                   test_LayerConv(&TBlayer);
-//                                  _DBGUART("-- Done %d %d %d %d\r\n",Bin,Bw,Bout,combo_count);
+                                  _DBGUART("-- Done %d %d %d %d\r\n",Bin,Bw,Bout,combo_count);
                               }
                               _lpm_sleep(10);
                               // ==============================================
 
-//                              _DBGUART("finished combo_count = %d\r\n",combo_count);
+                              _DBGUART("finished combo_count = %d\r\n",combo_count);
 
                               combo_count++;
 
@@ -141,7 +141,7 @@ void test_LayerConv_Combo(){
       }
     }
 
-//    _DBGUART("-- Done CNT : %d\r\n",combo_count);
+    _DBGUART("-- Done CNT : %d\r\n",combo_count);
 
 
     _STOP();
