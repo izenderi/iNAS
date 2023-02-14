@@ -132,7 +132,7 @@ class NetworkManager:
                                             callbacks=[ModelCheckpoint(h5_fname,
                                                                         monitor='val_acc', verbose=0,
                                                                         save_best_only=True,
-                                                                        save_weights_only=True),
+                                                                        save_weights_only=False),
                                                                         EpochPrintingCallback()])
 
                 # load best performance epoch in this training session
